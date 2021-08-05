@@ -299,7 +299,7 @@ public class PhotoLibraryService {
 
     final ArrayList<JSONObject> buffer = new ArrayList<JSONObject>();
 
-    if (cursor.moveToFirst()) {
+    if (cursor != null && cursor.moveToFirst()) {
       do {
         JSONObject item = new JSONObject();
 
