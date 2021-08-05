@@ -195,15 +195,15 @@ public class PhotoLibraryService {
 
   }
 
-  public void saveImage(final Context context, final CordovaInterface cordova, final String url, String album, final JSONObjectRunnable completion)
-    throws IOException, URISyntaxException {
+  public void saveImage(final Context context, final CordovaInterface cordova, final String url, String album, final JSONObjectRunnable completion) throws IOException, URISyntaxException {
 
     saveMedia(context, cordova, url, album, imageMimeToExtension, new FilePathRunnable() {
       @Override
-      public void run(String filePath) {
+      public void run(String filePath, Uri uri) {
         try {
           // Find the saved image in the library and return it as libraryItem
-          String whereClause = MediaStore.MediaColumns.DATA + " = \"" + filePath + "\"";
+          String whereClause = "(" + MediaStore.MediaColumns.DATA + " = \"" + filePath + "\")";
+          whereClause = uri.toString();
           queryLibrary(context, whereClause, new ChunkResultRunnable() {
             @Override
             public void run(ArrayList<JSONObject> chunk, int chunkNum, boolean isLastChunk) {
@@ -215,7 +215,6 @@ public class PhotoLibraryService {
         }
       }
     });
-
   }
 
   public void saveVideo(final Context context, final CordovaInterface cordova, String url, String album)
