@@ -222,11 +222,10 @@ public class PhotoLibraryService {
 
     saveMedia(context, cordova, url, album, videMimeToExtension, new FilePathRunnable() {
       @Override
-      public void run(String filePath) {
+      public void run(String filePath, Uri uri) {
         // TODO: call queryLibrary and return libraryItem of what was saved
       }
     });
-
   }
 
   public class PictureData {
@@ -575,7 +574,7 @@ public class PhotoLibraryService {
     MediaScannerConnection.scanFile(context, new String[]{filePath}, null, new MediaScannerConnection.OnScanCompletedListener() {
       @Override
       public void onScanCompleted(String path, Uri uri) {
-        completion.run(path);
+        completion.run(path, uri);
       }
     });
 
@@ -661,7 +660,7 @@ public class PhotoLibraryService {
 
   public interface FilePathRunnable {
 
-    void run(String filePath);
+    void run(String filePath, Uri uri);
 
   }
 
