@@ -195,7 +195,8 @@ public class PhotoLibraryService {
 
   }
 
-  public void saveImage(final Context context, final CordovaInterface cordova, final String url, String album, final JSONObjectRunnable completion) throws IOException, URISyntaxException {
+  public void saveImage(final Context context, final CordovaInterface cordova, final String url, String album, final JSONObjectRunnable completion)
+    throws IOException, URISyntaxException {
 
     saveMedia(context, cordova, url, album, imageMimeToExtension, new FilePathRunnable() {
       @Override
@@ -215,6 +216,7 @@ public class PhotoLibraryService {
         }
       }
     });
+
   }
 
   public void saveVideo(final Context context, final CordovaInterface cordova, String url, String album)
@@ -278,10 +280,22 @@ public class PhotoLibraryService {
 
     final String sortOrder = MediaStore.Images.Media.DATE_TAKEN + " DESC";
 
-    final Cursor cursor = context.getContentResolver().query(
-      collection,
-      columnValues.toArray(new String[columns.length()]),
-      whereClause, null, sortOrder);
+    Cursor cursor;
+    if (whereClause == "")
+    {
+        cursor= context.getContentResolver().query(
+              collection,
+              columnValues.toArray(new String[columns.length()]),
+              whereClause, null, sortOrder);
+    }
+    else
+    {
+        Uri uri = Uri.parse(whereClause);
+        cursor= context.getContentResolver().query(
+              uri,
+              columnValues.toArray(new String[columns.length()]),
+              null, null, null);
+    }
 
     final ArrayList<JSONObject> buffer = new ArrayList<JSONObject>();
 
