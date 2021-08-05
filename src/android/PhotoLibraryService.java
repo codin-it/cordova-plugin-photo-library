@@ -328,8 +328,9 @@ public class PhotoLibraryService {
       }
       while (cursor.moveToNext());
     }
-
-    cursor.close();
+    if(cursor != null){
+      cursor.close();
+    }
 
     return buffer;
 
@@ -423,8 +424,10 @@ public class PhotoLibraryService {
       return mimeType;
 
     }
+    if (cursor != null){
+      cursor.close();
+    }
 
-    cursor.close();
     return null;
   }
 
